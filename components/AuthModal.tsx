@@ -22,7 +22,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ onLogin }) => {
     setTimeout(() => {
       setIsLoading(false);
       if (isLoginTab) {
-        if (email === 'adminBuz@2p.com.br' && password === 'admin123') {
+        // IDs Permitidos
+        const allowedEmails = ['adminBuz@2p.com.br', 'phlima@2p.com.br'];
+        
+        if (allowedEmails.includes(email) && password === 'admin123') {
           onLogin();
         } else {
           setError('Credenciais inválidas. Verifique seu ID e Senha.');
