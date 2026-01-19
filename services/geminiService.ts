@@ -8,7 +8,7 @@ export async function fetchFinanceNews(): Promise<NewsItem[]> {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: "Gere 6 notícias fictícias mas realistas de hoje: 3 de economia e 3 de política, focadas no cenário brasileiro e internacional. Para cada notícia, forneça uma URL de imagem do Unsplash que corresponda ao tema (ex: fotos de prédios financeiros, congressos, moedas, bolsas de valores). Retorne em formato JSON.",
+      contents: "Gere 6 notícias fictícias mas realistas de hoje: 3 de economia e 3 de política, focadas no cenário brasileiro e internacional. Para cada notícia, forneça uma URL de imagem do Unsplash real e funcional seguindo o padrão 'https://images.unsplash.com/photo-[ID]?auto=format&fit=crop&q=80&w=800'. Os temas das imagens devem ser: prédios de escritórios modernos, congressos, tecnologia financeira, gráficos de bolsa, ou moedas. Retorne em formato JSON.",
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -22,7 +22,7 @@ export async function fetchFinanceNews(): Promise<NewsItem[]> {
               category: { type: Type.STRING, description: "must be 'economy' or 'politics'" },
               timestamp: { type: Type.STRING },
               source: { type: Type.STRING },
-              imageUrl: { type: Type.STRING, description: "A valid high-quality Unsplash image URL related to the topic" }
+              imageUrl: { type: Type.STRING, description: "A valid high-quality Unsplash image URL starting with https://images.unsplash.com/" }
             },
             required: ["id", "title", "summary", "category", "timestamp", "source", "imageUrl"]
           }

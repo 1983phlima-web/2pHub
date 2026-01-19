@@ -105,8 +105,18 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpen, setI
         
         <div className="pt-6 border-t border-slate-800">
            <div>
-             <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">© 2026 2ptec</p>
-             <p className="text-[8px] text-slate-600 font-bold uppercase tracking-widest mt-1">Secure Core System</p>
+             <div className="flex items-center gap-2 mb-1">
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">© 2026</p>
+                <a 
+                  href="https://2ptec-production.up.railway.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-blue-500 font-black uppercase tracking-widest hover:text-blue-400 transition-colors"
+                >
+                  2p Co.
+                </a>
+             </div>
+             <p className="text-[8px] text-slate-600 font-bold uppercase tracking-widest">Secure Core System</p>
            </div>
         </div>
       </div>
