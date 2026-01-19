@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, Cell, AreaChart, Area
@@ -10,6 +10,7 @@ import { getMarketInsight } from '../services/geminiService';
 
 const Dashboard: React.FC = () => {
   const [insight, setInsight] = useState("Sincronizando modelos de análise...");
+  const [isInsightExpanded, setIsInsightExpanded] = useState(false);
 
   useEffect(() => {
     const fetchInsight = async () => {
@@ -27,33 +28,60 @@ const Dashboard: React.FC = () => {
       className="space-y-12"
     >
       <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 px-4">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Visão Sistêmica</span>
-          </div>
+        <div className="space-y-1">
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter">Market Overview</h2>
-          <p className="text-slate-400 font-bold uppercase text-[11px] tracking-widest opacity-60">Inteligência de mercado integrada.</p>
+          <p className="text-slate-400 font-bold uppercase text-[11px] tracking-[0.2em] opacity-60">Inteligência de mercado integrada em tempo real.</p>
         </div>
         
         <motion.div 
-          initial={{ x: 30, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          className="w-full xl:max-w-2xl bg-white p-6 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 flex items-start gap-6 relative overflow-hidden group transition-all hover:border-blue-500/30"
+          layout
+          onClick={() => setIsInsightExpanded(!isInsightExpanded)}
+          className={`cursor-pointer w-full xl:max-w-md bg-white p-5 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-100 relative overflow-hidden group transition-all duration-500 ease-in-out ${isInsightExpanded ? 'ring-2 ring-blue-500/20' : 'hover:border-blue-500/30'}`}
         >
+          {/* Background Highlight */}
           <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:scale-125 transition-transform duration-1000">
-             <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="M12 2v4"/><path d="m16.2 4.2 2.8 2.8"/><path d="M18 12h4"/><path d="m16.2 19.8 2.8-2.8"/><path d="M12 18v4"/><path d="m4.2 19.8 2.8-2.8"/><path d="M2 12h4"/><path d="m4.2 4.2 2.8 2.8"/></svg>
+             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="M12 2v4"/><path d="m16.2 4.2 2.8 2.8"/><path d="M18 12h4"/><path d="m16.2 19.8 2.8-2.8"/><path d="M12 18v4"/><path d="m4.2 19.8 2.8-2.8"/><path d="M2 12h4"/><path d="m4.2 4.2 2.8 2.8"/></svg>
           </div>
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+
+          <div className="flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-colors duration-500 ${isInsightExpanded ? 'bg-blue-600' : 'bg-slate-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            </div>
+            <div className="flex-1">
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-blue-600 block">AI Financial Insight</span>
+              {!isInsightExpanded && (
+                <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 animate-pulse">Toque para analisar insight</p>
+              )}
+            </div>
+            <motion.div 
+              animate={{ rotate: isInsightExpanded ? 180 : 0 }}
+              className="text-slate-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </motion.div>
           </div>
-          <div className="flex-1 relative z-10">
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-blue-600 mb-2 block">AI Financial Insight</span>
-            <p className="text-base text-slate-800 font-bold leading-relaxed pr-8 italic">"{insight}"</p>
-          </div>
+
+          <AnimatePresence>
+            {isInsightExpanded && (
+              <motion.div 
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "circOut" }}
+                className="overflow-hidden"
+              >
+                <div className="pt-6 mt-4 border-t border-slate-50">
+                  <p className="text-sm md:text-base text-slate-800 font-bold leading-relaxed italic">
+                    "{insight}"
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </header>
 
-      {/* Currency Grid - Apple Style High Performance Display */}
+      {/* Currency Grid - High Fidelity Cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-4">
         {INITIAL_CURRENCIES.map((currency, idx) => (
           <motion.div 
@@ -65,7 +93,7 @@ const Dashboard: React.FC = () => {
           >
             <div className="flex justify-between items-start mb-8">
               <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-sm shadow-inner ${currency.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-sm shadow-inner transition-colors ${currency.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                   {currency.symbol.split('/')[0]}
                 </div>
                 <div>
@@ -73,7 +101,7 @@ const Dashboard: React.FC = () => {
                   <h3 className="font-black text-slate-900 text-lg tracking-tight">{currency.name}</h3>
                 </div>
               </div>
-              <div className={`px-3 py-1.5 rounded-full text-[10px] font-black flex items-center gap-2 ${currency.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+              <div className={`px-3 py-1.5 rounded-full text-[10px] font-black flex items-center gap-2 transition-colors ${currency.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                 <span className="animate-pulse">{currency.trend === 'up' ? '▲' : '▼'}</span>
                 {currency.change}%
               </div>
