@@ -1,0 +1,5 @@
+{
+  "name": "2p FinanceHub",
+  "description": "Um dashboard financeiro interativo para comparação de moedas, investimentos e notícias em tempo real, incluindo um simulador de robô trader integrado.",
+  "requestFramePermissions": []
+}
